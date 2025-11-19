@@ -5,34 +5,57 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const owner = {
-  name: "Samuel Brown",
+  name: "Nishant Shekhar",
   title: "Owner & Founder",
-  img: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400",
-  desc: "Leading the vision and strategy. Samuel ensures our team delivers exceptional results and innovation every day.",
+  img: "https://media.licdn.com/dms/image/v2/D4D03AQFUD3EMJW-SMQ/profile-displayphoto-shrink_800_800/B4DZR_Z.U3HkAg-/0/1737304303571?e=1765411200&v=beta&t=az_Mt9zkLGTMIpekhzkDOFWzYy2vAqVdoOsc5KrTelE",
+  desc: "Leading the vision and strategy. Nishant ensures our team delivers exceptional results and innovation every day.",
 };
 
 const members = [
   {
-    role: "Wealth Advisor",
-    name: "Taylor Miller",
-    img: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400",
+    role: "React Developer",
+    name: "Aditya Kumar",
+    img: "https://media.licdn.com/dms/image/v2/D5603AQEk-OM0mDJnkQ/profile-displayphoto-shrink_800_800/B56ZZojkV5GQAg-/0/1745510877242?e=1765411200&v=beta&t=nuHQ2kXeFZfOQdcPCljPptIUW1fR7zhF8a95MS0uiz4",
   },
   {
-    role: "Chief Investment Officer",
-    name: "Alan Davis",
-    img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
+    role: "React Developer",
+    name: "Abhishek Anand",
+    img: "https://media.licdn.com/dms/image/v2/D4D03AQHgdEA3WVAhNQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1692214950711?e=1765411200&v=beta&t=_rVEG7UleCcO-VIPbhVJaL1ydgLRXVDiVO3L08BOGAQ",
   },
   {
-    role: "Wealth Advisor",
-    name: "Andrea Jones",
-    img: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400",
+    role: "React Developer",
+    name: "Manish Kumar",
+    img: "https://media.licdn.com/dms/image/v2/D5603AQExFwrFWBhafA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1702654018781?e=1765411200&v=beta&t=5M3cHkL2k9BGF5uyDEvt-F-z3X3IvepQXLwcLpgB5FA",
   },
   {
-    role: "Wealth Advisor",
-    name: "Katie Williams",
-    img: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=400",
+    role: "React Developer",
+    name: "Aditya Raj ",
+    img: "https://media.licdn.com/dms/image/v2/D4D03AQEq17gHXLfK7Q/profile-displayphoto-shrink_800_800/B4DZSRvrVTGcAc-/0/1737611983348?e=1765411200&v=beta&t=0WgrsWrI1E9o2DsWcnmFxKSjtGabEZOP-9WLA3fu8nM",
   },
+  // new members
+   {
+    role: "React Developer",
+    name: "Pranav Kumar",
+    img: "https://media.licdn.com/dms/image/v2/D5603AQGK4D8tOKZuCQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1712578935106?e=1765411200&v=beta&t=o66tWWvYtRRiUBevQyzQpl0xbK8lMPRqriX2-vM_EJs",
+  },
+  {
+    role: "Machine Learning",
+    name: "Abhinab Kumar",
+    img: "https://media.licdn.com/dms/image/v2/D4D03AQGAsH23Z7DMdw/profile-displayphoto-shrink_800_800/B4DZRoT6LpHkAg-/0/1736916838539?e=1765411200&v=beta&t=MYn5a88yPk9-wWzZB4bpNjPrwU8WWt3uMJQIqNB5lJU",
+  },
+  {
+    role: "React Developer",
+    name: "Manish Kumar",
+    img: "https://media.licdn.com/dms/image/v2/D4D35AQGE_NRQ-PomEg/profile-framedphoto-shrink_800_800/B4DZkj7yoNIcAg-/0/1757244500804?e=1764136800&v=beta&t=3KPF6fdEra392PCv50fyhtSa6hKs5TfquqUBDoTSSAM",
+  },
+  {
+    role: "Machine Learning",
+    name: "Priyanshu Shankar ",
+    img: "https://media.licdn.com/dms/image/v2/D4D03AQFXF8LraML_hw/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1714559521498?e=1765411200&v=beta&t=XRZA9ZBJ98iz8m80hiAOChCxlluuqgnDTBz6gYjrblY",
+  },
+ 
 ];
+
 
 const Team = () => {
   const ownerRef = useRef();

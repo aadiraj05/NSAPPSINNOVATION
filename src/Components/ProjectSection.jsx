@@ -164,7 +164,6 @@ class ProjectCard {
       transparent: true
     });
 
-    // Load image
     const img = new Image();
     img.crossOrigin = 'anonymous';
     img.src = this.image;
@@ -257,54 +256,78 @@ const ProjectSection = () => {
   const projectData = {
     product: [
       {
-        title: "VENDOR DASHBOARD",
-        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
+        id: 'vendor-dashboard',
+        type: 'product',
+        title: 'VENDOR DASHBOARD',
+        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop'
       },
       {
-        title: "NS APPS MOBILE",
-        image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop"
+        id: 'ns-apps-mobile',
+        type: 'product',
+        title: 'NS APPS MOBILE',
+        image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop'
       },
       {
-        title: "ANALYTICS PLATFORM",
-        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop"
+        id: 'analytics-platform',
+        type: 'product',
+        title: 'ANALYTICS PLATFORM',
+        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop'
       },
       {
-        title: "E-COMMERCE SUITE",
-        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop"
+        id: 'ecommerce-suite',
+        type: 'product',
+        title: 'E-COMMERCE SUITE',
+        image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop'
       },
       {
-        title: "CRM SYSTEM",
-        image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop"
+        id: 'crm-system',
+        type: 'product',
+        title: 'CRM SYSTEM',
+        image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop'
       },
       {
-        title: "PROJECT TRACKER",
-        image: "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&h=600&fit=crop"
+        id: 'project-tracker',
+        type: 'product',
+        title: 'PROJECT TRACKER',
+        image: 'https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&h=600&fit=crop'
       }
     ],
     service: [
       {
-        title: "WEB DEVELOPMENT",
-        image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop"
+        id: 'web-development',
+        type: 'service',
+        title: 'WEB DEVELOPMENT',
+        image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop'
       },
       {
-        title: "UI/UX DESIGN",
-        image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop"
+        id: 'ui-ux-design',
+        type: 'service',
+        title: 'UI/UX DESIGN',
+        image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop'
       },
       {
-        title: "BRAND IDENTITY",
-        image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&h=600&fit=crop"
+        id: 'brand-identity',
+        type: 'service',
+        title: 'BRAND IDENTITY',
+        image: 'https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&h=600&fit=crop'
       },
       {
-        title: "DIGITAL MARKETING",
-        image: "https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?w=800&h=600&fit=crop"
+        id: 'digital-marketing',
+        type: 'service',
+        title: 'DIGITAL MARKETING',
+        image: 'https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?w=800&h=600&fit=crop'
       },
       {
-        title: "CONSULTING",
-        image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop"
+        id: 'consulting',
+        type: 'service',
+        title: 'CONSULTING',
+        image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop'
       },
       {
-        title: "MAINTENANCE",
-        image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&h=600&fit=crop"
+        id: 'maintenance',
+        type: 'service',
+        title: 'MAINTENANCE',
+        image: 'https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&h=600&fit=crop'
       }
     ]
   };
@@ -524,13 +547,30 @@ const ProjectSection = () => {
           </button>
         </div>
 
-        <div 
+        <div
           ref={canvasContainerRef}
           className="w-full h-[600px] cursor-grab active:cursor-grabbing rounded-2xl bg-gray-100 border-2 border-gray-300 shadow-xl overflow-hidden"
         />
 
-        <div className="text-center mt-8 text-gray-500 text-sm">
-          Drag or scroll to explore • {projectData[activeTab].length} {activeTab === 'product' ? 'Products' : 'Services'}
+        {/* Updated: Explore projects button, respecting current tab */}
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={() =>
+              window.open(
+                `/projects/explore?type=${activeTab}`,
+                '_blank',
+                'noopener,noreferrer'
+              )
+            }
+            className="px-10 py-3 rounded-full bg-black text-white text-sm md:text-base font-semibold tracking-[0.2em] uppercase hover:bg-gray-900 transition-colors"
+          >
+            Explore projects
+          </button>
+        </div>
+
+        <div className="text-center mt-4 text-gray-500 text-sm">
+          Drag or scroll to explore • {projectData[activeTab].length}{' '}
+          {activeTab === 'product' ? 'Products' : 'Services'}
         </div>
       </div>
     </section>
