@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import React, { useRef, useLayoutEffect } from "react";
 import { ArrowUpRight, Github } from "lucide-react";
 import { Link } from "react-router-dom";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import productsData from "../data/products.json";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -12,64 +12,51 @@ const ProductSection = () => {
     const triggerRef = useRef(null);
     const containerRef = useRef(null);
 
-    // Use useLayoutEffect for GSAP to prevent FOUC and ensure DOM is ready
-    React.useLayoutEffect(() => {
+    useLayoutEffect(() => {
         const ctx = gsap.context(() => {
-            // Horizontal Scroll Animation
-            const totalSections = productsData.length;
+            const sections = gsap.utils.toArray(".product-card");
+            const totalWidth = sections.length * 100; // 100vw per section
 
-            const scrollTween = gsap.to(
-                containerRef.current,
-                {
-                    xPercent: -100 * (totalSections - 1),
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: triggerRef.current,
-                        start: "top top",
-                        end: () => `+=${totalSections * 1500}`,
-                        scrub: 1,
-                        pin: true,
-                        invalidateOnRefresh: true,
-                    },
+            gsap.to(sections, {
+                xPercent: -100 * (sections.length - 1),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    pin: true,
+                    scrub: 1,
+                    snap: 1 / (sections.length - 1),
+                    end: () => "+=" + containerRef.current.offsetWidth,
                 }
-            );
-
+            });
         }, sectionRef);
 
-        return () => {
-            ctx.revert();
-        };
+        return () => ctx.revert();
     }, []);
 
     return (
-        <section ref={sectionRef} className="relative bg-gray-50 text-gray-900 overflow-hidden z-10">
-            {/* Header Section */}
-            <div className="absolute top-0 left-0 w-full z-20 p-8 flex justify-between items-center">
+        <section ref={sectionRef} className="relative bg-gray-50 text-gray-900 overflow-hidden">
+            {/* Header Section - Fixed */}
+            <div className="absolute top-0 left-0 w-full z-20 p-8 md:p-12 flex justify-between items-center pointer-events-none">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tighter uppercase text-gray-900">Our Products</h2>
-                    <p className="text-sm text-gray-500 mt-1">Innovative Solutions</p>
+                    <h2 className="text-3xl font-bold tracking-tighter uppercase text-gray-900">Selected Works</h2>
+                    <p className="text-sm text-gray-500 mt-1">Curated digital experiences</p>
                 </div>
             </div>
 
             {/* Horizontal Scroll Container */}
-            <div ref={triggerRef} className="h-screen w-full overflow-hidden relative">
-                <div
-                    ref={containerRef}
-                    className="flex h-full w-[100vw]"
-                >
+            <div ref={triggerRef} className="h-screen flex items-center">
+                <div ref={containerRef} className="flex flex-nowrap h-full">
                     {productsData.map((project, index) => (
                         <div
                             key={project.id}
-                            className="w-[100vw] h-screen flex-shrink-0 flex items-center justify-center p-4 md:p-20 relative"
+                            className="product-card w-screen h-screen flex-shrink-0 flex items-center justify-center p-4 md:p-20 relative"
                         >
-                            {/* Background Number - Subtle */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[30rem] font-bold text-gray-200/40 pointer-events-none select-none z-0">
+                            {/* Background Number */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20rem] md:text-[40rem] font-bold text-gray-200/40 pointer-events-none select-none z-0 leading-none">
                                 {index + 1}
                             </div>
 
-                            {/* Content Wrapper */}
-                            <div className="relative z-10 max-w-6xl w-full grid md:grid-cols-2 gap-12 items-center">
-
+                            <div className="max-w-7xl w-full grid md:grid-cols-2 gap-12 items-center relative z-10">
                                 {/* Left: Text Content */}
                                 <div className="space-y-8 order-2 md:order-1">
                                     <div className="space-y-4">
@@ -111,7 +98,7 @@ const ProductSection = () => {
 
                                 {/* Right: Image Card */}
                                 <div className="order-1 md:order-2 relative group perspective-1000">
-                                    <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl transform transition-all duration-700 group-hover:rotate-y-6 group-hover:scale-[1.02] bg-white">
+                                    <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl transform transition-all duration-700 group-hover:rotate-y-6 group-hover:scale-[1.02] bg-white">
                                         <img
                                             src={project.img}
                                             alt={project.title}
@@ -124,12 +111,6 @@ const ProductSection = () => {
                         </div>
                     ))}
                 </div>
-            </div>
-
-            {/* Scroll Indicator */}
-            <div className="absolute bottom-8 right-8 z-20 flex items-center gap-4 text-sm font-mono text-gray-400">
-                <span>SCROLL TO EXPLORE PRODUCTS</span>
-                <div className="w-12 h-[1px] bg-gray-400" />
             </div>
         </section>
     );

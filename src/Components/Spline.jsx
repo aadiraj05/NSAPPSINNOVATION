@@ -360,7 +360,7 @@ const Hero = () => {
             animate="visible"
             custom={1}
           >
-            <PressureText text="INNOVATIONS" className="text-6xl md:text-8xl" />
+            <PressureText text="INNOVATIONS" className="text-6xl md:text-[6.5rem]" />
           </motion.div>
 
           {/* Animated Scroll Down Indicator */}
