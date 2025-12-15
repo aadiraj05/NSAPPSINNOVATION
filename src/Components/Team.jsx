@@ -15,7 +15,7 @@ const members = [
   {
     role: "React Developer",
     name: "Aditya Kumar",
-    img: "/aditya.png",
+    img: "/Abhishek.jpeg",
   },
   {
     role: "React Developer",
