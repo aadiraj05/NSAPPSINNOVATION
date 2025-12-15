@@ -15,7 +15,7 @@ const members = [
   {
     role: "React Developer",
     name: "Aditya Kumar",
-    img: "/Abhishek.jpeg",
+    img: "/aditya.png",
   },
   {
     role: "React Developer",
@@ -32,7 +32,7 @@ const members = [
     name: "Aditya Raj ",
     img: "/AdityaRaj.jpeg",
   },
-  
+
   // new members
   {
     role: "React Developer",
@@ -294,8 +294,8 @@ const Team = () => {
             style={{
               boxShadow: "0 4px 32px rgba(60,60,60,0.08)",
             }}
-            
-           
+
+
           />
         </div>
         <div>
@@ -331,7 +331,7 @@ const Team = () => {
               >
                 <span
                   ref={(el) => (nameRefs.current[i] = el)}
-                  className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 inline-block transition-all duration-300 cursor-pointer whitespace-nowrap"
+                  className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 inline-block transition-all duration-300 cursor-pointer whitespace-normal md:whitespace-nowrap"
                 >
                   {m.name}
                 </span>

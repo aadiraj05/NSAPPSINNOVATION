@@ -45,12 +45,12 @@ const TopNavbar = () => {
     if (element) {
       const navbarHeight = 80;
       const targetPosition = element.getBoundingClientRect().top + window.scrollY - navbarHeight;
-      
+
       window.scrollTo({
         top: targetPosition,
         behavior: "smooth"
       });
-      
+
       setActiveTab(sectionId);
     }
   };
@@ -131,18 +131,16 @@ const TopNavbar = () => {
               <button
                 key={idx}
                 onClick={() => scrollToSection(item.id)}
-                className={`relative flex flex-col items-center justify-center px-2.5 py-1.5 min-w-[55px] transition-all duration-300 ease-out group ${
-                  activeTab === item.id
-                    ? "text-gray-800"
-                    : "text-gray-400 hover:text-gray-700"
-                }`}
+                className={`relative flex flex-col items-center justify-center px-2.5 py-1.5 min-w-[55px] transition-all duration-300 ease-out group ${activeTab === item.id
+                  ? "text-gray-800"
+                  : "text-gray-400 hover:text-gray-700"
+                  }`}
               >
                 <div
-                  className={`transition-all duration-300 ${
-                    activeTab === item.id
-                      ? "scale-105 drop-shadow-sm"
-                      : "group-hover:scale-105 group-hover:drop-shadow-sm"
-                  }`}
+                  className={`transition-all duration-300 ${activeTab === item.id
+                    ? "scale-105 drop-shadow-sm"
+                    : "group-hover:scale-105 group-hover:drop-shadow-sm"
+                    }`}
                 >
                   {React.cloneElement(item.icon, {
                     strokeWidth: activeTab === item.id ? 2 : 1.5,
@@ -150,11 +148,10 @@ const TopNavbar = () => {
                   })}
                 </div>
                 <span
-                  className={`text-[10px] font-medium mt-0.5 transition-all duration-300 ${
-                    activeTab === item.id
-                      ? "opacity-100 font-semibold"
-                      : "opacity-60 group-hover:opacity-90 group-hover:font-medium"
-                  }`}
+                  className={`text-[10px] font-medium mt-0.5 transition-all duration-300 ${activeTab === item.id
+                    ? "opacity-100 font-semibold"
+                    : "opacity-60 group-hover:opacity-90 group-hover:font-medium"
+                    }`}
                 >
                   {item.name}
                 </span>

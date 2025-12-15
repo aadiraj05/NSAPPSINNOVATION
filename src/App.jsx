@@ -3,19 +3,21 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from "react-route
 import Navbar from "./Components/Navbar";
 import Hero from "./Components/Spline";
 import AboutUs from "./Components/AboutUs";
-import TestimonialCarousel from "./Components/Testimonial";
+// import TestimonialCarousel from "./Components/Testimonial";
 import Footer from "./Components/Footer";
 import SplashScreen from "./Components/SplashScreen";
 import About from "./Components/About";
 import Contact from "./Components/Contact";
 import Team from "./Components/Team";
-import GetInTouchSection from "./Components/GetInTouchSection";
+// import GetInTouchSection from "./Components/GetInTouchSection";
 import ContactUs from "./Components/ContactUs";
 import ServicesSection from "./Components/ServicesSection";
-import ProductSection from "./Components/ProductSection";
-import ServiceSection from "./Components/ServiceSection";
+// import ProductSection from "./Components/ProductSection";
+// import ServiceSection from "./Components/ServiceSection";
 import ProductDetail from "./Components/ProductDetail";
 import ServiceDetail from "./Components/ServiceDetail";
+import CircularGallery from "./Components/CircularGallery";
+
 import CursorDot from "./Components/Cursor";
 // Scroll to top on route change
 function ScrollToTop() {
@@ -55,15 +57,16 @@ function App() {
               path="/"
               element={
                 <>
-                
+
                   <Hero />
-                   <CursorDot />
+                  <CursorDot />
                   <AboutUs />
                   <ServicesSection />
-                  <ProductSection />
-                  <ServiceSection />
+                  <CircularGallery />
+                  {/* <ProductSection />
+                  <ServiceSection /> */}
                   <Team />
-                  <GetInTouchSection />
+                  {/* <GetInTouchSection /> */}
                   <ContactUs />
                   {/* <TestimonialCarousel /> */}
                   <Footer />
@@ -78,6 +81,8 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/service/:id" element={<ServiceDetail />} />
+            {/* <Route path="/projects" element={<ProjectsGallery />} />
+            <Route path="/services" element={<ProjectsGallery />} /> */}
           </Routes>
         </>
       )}

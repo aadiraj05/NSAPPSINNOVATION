@@ -149,17 +149,17 @@ const ServiceDetail = () => {
                 <div className="flex-1 w-full relative h-[600px] flex items-center justify-center lg:justify-end perspective-1000">
 
                     {/* Card 3 (Back) */}
-                    <div className="hero-card absolute top-10 right-0 w-[60%] md:w-[450px] aspect-[1.6] bg-gray-200 rounded-3xl shadow-2xl border-4 border-white transform rotate-[-8deg] translate-y-[-40px] z-10 overflow-hidden">
+                    <div className="hero-card absolute top-10 right-4 md:right-0 w-[75%] md:w-[450px] aspect-[1.6] bg-gray-200 rounded-3xl shadow-2xl border-4 border-white transform rotate-[-8deg] translate-y-[-40px] z-10 overflow-hidden">
                         <img src={stackImages[2] || service.img} alt="Card 3" className="w-full h-full object-cover opacity-80" />
                     </div>
 
                     {/* Card 2 (Middle) */}
-                    <div className="hero-card absolute top-24 right-12 w-[60%] md:w-[450px] aspect-[1.6] bg-gray-100 rounded-3xl shadow-2xl border-4 border-white transform rotate-[5deg] translate-y-[-20px] z-20 overflow-hidden">
+                    <div className="hero-card absolute top-24 right-8 md:right-12 w-[75%] md:w-[450px] aspect-[1.6] bg-gray-100 rounded-3xl shadow-2xl border-4 border-white transform rotate-[5deg] translate-y-[-20px] z-20 overflow-hidden">
                         <img src={stackImages[1] || service.img} alt="Card 2" className="w-full h-full object-cover opacity-90" />
                     </div>
 
                     {/* Card 1 (Front) */}
-                    <div className="hero-card absolute top-40 right-24 w-[60%] md:w-[450px] aspect-[1.6] bg-white rounded-3xl shadow-2xl border-4 border-white transform rotate-[-12deg] z-30 overflow-hidden">
+                    <div className="hero-card absolute top-40 right-12 md:right-24 w-[75%] md:w-[450px] aspect-[1.6] bg-white rounded-3xl shadow-2xl border-4 border-white transform rotate-[-12deg] z-30 overflow-hidden">
                         <img src={stackImages[0] || service.img} alt="Card 1" className="w-full h-full object-cover" />
                         {/* Shine effect */}
                         <div className="absolute inset-0 bg-gradient-to-tr from-white/40 to-transparent pointer-events-none mix-blend-overlay" />
