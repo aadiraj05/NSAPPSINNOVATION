@@ -1,10 +1,6 @@
 // Components/About.jsx
 import React from "react";
 import sampleImage from "/texture.png"; // replace with your image path
-import team1 from "/text1.jpeg"; // replace with actual team images
-import team2 from "/text1.jpeg";
-import team3 from "/text1.jpeg";
-import team4 from "/text1.jpeg";
 
 function About() {
   const team = [

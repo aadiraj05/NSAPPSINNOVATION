@@ -64,7 +64,7 @@ const ServiceSection = () => {
     const visibleServices = isExpanded ? allServices : allServices.slice(0, 5);
 
     // Extended offsets for more cards
-    const cardOffsets = ['mt-0', 'mt-12', 'mt-6', 'mt-8', 'mt-4', 'mt-10', 'mt-2', 'mt-14', 'mt-5', 'mt-12'];
+
 
     return (
         <section ref={sectionRef} className="relative bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 text-gray-900 overflow-hidden h-screen flex flex-col justify-center">
@@ -86,7 +86,7 @@ const ServiceSection = () => {
                     {visibleServices.map((service, index) => (
                         <div
                             key={service.id}
-                            className={`service-card-item w-[280px] md:w-[320px] flex-shrink-0 ${cardOffsets[index % cardOffsets.length]}`}
+                            className={`service-card-item w-[280px] md:w-[320px] flex-shrink-0 mt-0`}
                         >
                             {/* Card Container */}
                             <div className="w-full relative">
@@ -195,12 +195,10 @@ const ServiceSection = () => {
                         <div className="service-card-item w-[300px] md:w-[350px] flex-shrink-0 h-[500px] flex items-center justify-center">
                             <button
                                 onClick={() => setIsExpanded(true)}
-                                className="group flex flex-col items-center gap-4 p-8 rounded-full hover:bg-gray-200/50 transition-all duration-300"
+                                className="group flex items-center gap-3 px-8 py-4 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all duration-300"
                             >
-                                <div className="w-20 h-20 rounded-full bg-gray-900 text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform duration-300">
-                                    <Plus className="w-8 h-8" />
-                                </div>
-                                <span className="text-lg font-bold text-gray-900 tracking-tight uppercase">View More Services</span>
+                                <span className="text-sm font-semibold text-gray-900 uppercase tracking-widest">View More</span>
+                                <Plus className="w-4 h-4 text-gray-900 group-hover:rotate-90 transition-transform duration-300" />
                             </button>
                         </div>
                     )}

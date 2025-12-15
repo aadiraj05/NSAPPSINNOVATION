@@ -2,7 +2,7 @@ import React from "react";
 
 function Contact() {
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-50 px-4">
+    <div className="min-h-screen flex flex-col items-center bg-gray-50 px-4" >
       {/* Heading */}
       <h1 className="text-4xl font-bold text-gray-800 mt-24 mb-4 ">
         Contact Us
@@ -36,7 +36,7 @@ function Contact() {
 
         {/* Message */}
         <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-semibold mb-2">
+          <label className="block text-gray-700 text-sm font-semibold mb-2"  id='contact-section'>
             Message
           </label>
           <textarea

@@ -1,172 +1,168 @@
-import React, { useRef, useState, useLayoutEffect } from 'react';
-import { Smartphone, Laptop, Palette, Rocket, ArrowRight, Minus } from 'lucide-react';
+import React, { useRef, useEffect } from 'react';
+import { Smartphone, Laptop, Palette, Rocket } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import CurveSVGManipulation from '../Components/Svgmanupulation';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const services = [
-  {
-    icon: Smartphone,
-    title: "App Development.",
-    subtitle: "Native & Cross-Platform.",
-    tag: "MOBILE_DEV",
-    description: "Building high-performance mobile applications that define the future of user interaction.",
-    fullDescription: "We specialize in creating native and cross-platform mobile applications that offer seamless user experiences. From concept to deployment, our team ensures your app is scalable, secure, and intuitive.",
-    id: "01",
-    linkId: "product-app"
-  },
-  {
-    icon: Laptop,
-    title: "Web Engineering.",
-    subtitle: "Scalable Architectures.",
-    tag: "WEB_SYSTEMS",
-    description: "Architecting robust web platforms using modern frameworks and serverless technologies.",
-    fullDescription: "Our web engineering solutions are designed to handle high traffic and complex data processing. We utilize the latest frameworks like React, Next.js, and Node.js to build responsive and powerful web applications.",
-    id: "02",
-    linkId: "corporate-website"
-  },
-  {
-    icon: Palette,
-    title: "Product Design.",
-    subtitle: "User-Centric Interfaces.",
-    tag: "UI_UX_DESIGN",
-    description: "Crafting intuitive design systems that bridge the gap between human intent and digital response.",
-    fullDescription: "Design is at the heart of everything we do. Our product design process involves deep user research, wireframing, and prototyping to create interfaces that are not only beautiful but also highly functional.",
-    id: "03",
-    linkId: "uiux-design-kit"
-  },
-  {
-    icon: Rocket,
-    title: "Digital Strategy.",
-    subtitle: "Market Penetration.",
-    tag: "GROWTH_HACK",
-    description: "Data-driven strategies to accelerate digital transformation and market penetration.",
-    fullDescription: "We help businesses navigate the digital landscape with data-driven strategies. Our services include market analysis, digital marketing planning, and growth hacking to ensure your brand reaches its full potential.",
-    id: "04",
-    linkId: "brand-strategy"
-  }
-];
+const ServiceCard = ({ icon: Icon, title, description, index }) => {
+  const cardRef = useRef(null);
 
-const ServicesSection = () => {
-  const sectionRef = useRef(null);
-  const triggerRef = useRef(null);
-  const containerRef = useRef(null);
-  const [expandedId, setExpandedId] = useState(null);
+  useEffect(() => {
+    const el = cardRef.current;
 
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.to(containerRef.current, {
-        x: () => -(containerRef.current.scrollWidth - window.innerWidth),
-        ease: "none",
+    gsap.fromTo(
+      el,
+      { y: 80, opacity: 0, scale: 0.95 },
+      {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 1.2,
+        ease: 'power2.out',
         scrollTrigger: {
-          trigger: sectionRef.current,
-          pin: true,
-          scrub: 1,
-          start: "center center",
-          end: () => `+=${containerRef.current.scrollWidth - window.innerWidth}`,
-          invalidateOnRefresh: true,
-        }
+          trigger: el,
+          start: 'top 80%',
+          end: 'top 50%',
+          toggleActions: 'play none none reverse',
+          scrub: 0.5,
+        },
+      }
+    );
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.trigger === el) trigger.kill();
       });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [expandedId]);
-
-  const toggleExpand = (id) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
+    };
+  }, []);
 
   return (
-    <section ref={sectionRef} className="bg-gray-50 text-black font-sans py-24 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-6 relative z-10 ">
-        <h2 className="relative text-3xl md:text-4xl  text-gray-800 pb-1 pointer-events-none">
-          Services
-        </h2>
-      </div>
-      <div className=" absolute  left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[100]">
-          <CurveSVGManipulation />
-        </div>
-
-
-      <div ref={triggerRef} className="w-full h-[700px] flex items-center relative z-10 pt-34">
-        <div
-          ref={containerRef}
-          className="flex gap-12 px-6 md:px-12 w-fit"
-        >
-          {services.map((service, index) => {
-            const isExpanded = expandedId === service.id;
-
-            return (
-              <div
-                key={index}
-                className={`service-card flex-shrink-0 bg-white rounded-[2rem] border-2 border-black hover:-translate-y-1 transition-all duration-300 ease-out group relative overflow-hidden flex flex-col
-                    ${isExpanded ? 'w-[500px] md:w-[650px]' : 'w-[380px] md:w-[480px]'}
-                `}
-              >
-                {/* Card Header */}
-                <div className="p-8 pb-0 flex justify-between items-start">
-                  <div className="p-3">
-                    <service.icon className="w-12 h-12 text-black" strokeWidth={2} />
-                  </div>
-                  <div className="text-right">
-                    <span className="block text-4xl font-black">{service.id}</span>
-                    <span className="text-xs font-mono font-bold tracking-widest text-gray-500">INDEX</span>
-                  </div>
-                </div>
-
-                {/* Card Body */}
-                <div className="p-8 flex-1 flex flex-col justify-center">
-                  <div className="mb-6">
-                    <span className="font-mono text-xs font-bold text-gray-400 tracking-widest uppercase mb-3 block">
-                      {service.tag}
-                    </span>
-                    <h3 className="text-4xl md:text-5xl font-black leading-[0.9] tracking-tight text-black mb-1">
-                      {service.title}
-                    </h3>
-                    <h4 className="text-4xl md:text-5xl font-bold leading-[0.9] tracking-tight text-gray-400">
-                      {service.subtitle}
-                    </h4>
-                  </div>
-
-                  <div className="border-l-2 border-black pl-6 py-2">
-                    <p className="text-lg font-medium leading-relaxed text-gray-800">
-                      {service.description}
-                    </p>
-                  </div>
-
-                  {/* Expanded Content */}
-                  <div className={`grid transition-all duration-500 ease-in-out ${isExpanded ? 'grid-rows-[1fr] opacity-100 mt-6' : 'grid-rows-[0fr] opacity-0 mt-0'}`}>
-                    <div className="overflow-hidden">
-                      <div className="bg-gray-100 p-6 rounded-xl border border-black font-mono text-sm leading-relaxed">
-                        {service.fullDescription}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Card Footer */}
-                <div className="p-8 pt-0 mt-auto flex items-center justify-between">
-                  <div className="font-mono text-xs font-bold">
-                    STATUS: <span className="text-green-600">READY</span>
-                  </div>
-                  <button
-                    onClick={() => toggleExpand(service.id)}
-                    className="group/btn flex items-center gap-2 text-sm font-black uppercase tracking-wider hover:gap-3 transition-all outline-none"
-                  >
-                    {isExpanded ? 'COLLAPSE' : 'EXECUTE'}
-                    {isExpanded ? <Minus className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
-                  </button>
-                </div>
+    <div ref={cardRef} className="relative mt-10">
+      {/* Outer cutout layer */}
+      <div className="flex justify-center div-cutout bg-black/5">
+        {/* Inner cutout layer */}
+        <div className="flex justify-center div-cutout bg-white h-96 w-72 scale-[0.99] border border-gray-200 shadow-md">
+          {/* Card content */}
+          <div className="relative h-full w-full bg-gradient-to-br from-gray-50 to-gray-100 p-8 flex flex-col justify-between group hover:from-gray-900 hover:to-gray-800 transition-all duration-500">
+            {/* Icon */}
+            <div className="mb-6">
+              <div className="w-16 h-16 rounded-xl bg-white group-hover:bg-white/10 flex items-center justify-center transition-all duration-500 group-hover:rotate-6 group-hover:scale-110 shadow-sm">
+                <Icon className="text-3xl text-gray-900 group-hover:text-white transition-colors duration-500" />
               </div>
-            );
-          })}
-          {/* Spacer to ensure last card is fully visible if needed */}
-          <div className="w-[10vw] flex-shrink-0"></div>
+            </div>
+
+            {/* Title and Description */}
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500 mb-4 tracking-tight">
+                {title}
+              </h3>
+
+              <p className="text-gray-600 group-hover:text-gray-300 transition-colors duration-500 leading-relaxed text-sm">
+                {description}
+              </p>
+            </div>
+
+            {/* Hover Arrow */}
+            <div className="mt-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+              <span className="text-white text-sm font-semibold tracking-wide">Explore</span>
+              <svg
+                className="w-4 h-4 text-white transform group-hover:translate-x-2 transition-transform duration-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+
+      {/* Number indicator */}
+      <p className="absolute top-2 left-1 z-50 text-black/70 font-mono text-sm tracking-wider">
+        / 0{index + 1}
+      </p>
+    </div>
+  );
+};
+
+const ServicesSection = () => {
+  const services = [
+    {
+      icon: Smartphone,
+      title: 'App Development',
+      description:
+        'Native and cross-platform apps engineered for performance, reliability, and delightful user journeys.',
+    },
+    {
+      icon: Laptop,
+      title: 'Web Engineering',
+      description:
+        'Modern, scalable web platforms built with React, Node, and cloud-native architectures.',
+    },
+    {
+      icon: Palette,
+      title: 'UI / UX Design',
+      description:
+        'User-centered interfaces that merge strong visual identity with intuitive flows.',
+    },
+    {
+      icon: Rocket,
+      title: 'Digital Strategy',
+      description:
+        'End-to-end digital solutions, from concept and MVP to growth-focused launch plans.',
+    },
+  ];
+
+  return (
+    <>
+      <style jsx>{`
+        .div-cutout {
+          clip-path: polygon(
+            0 0,
+            calc(100% - 20px) 0,
+            100% 20px,
+            100% 100%,
+            0 100%
+          );
+        }
+      `}</style>
+
+      <section className="relative w-full min-h-screen bg-white text-black py-8 overflow-hidden" id='service'>
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Header + SVG wrapper */}
+          <div className="relative ">
+            {/* Text block */}
+            <div className="relative z-10">
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900">
+                Our Services
+              </h2>
+            </div>
+
+
+            <div className="w-full overflow-visible flex w-full z-50 absolute top-1/9 right-14">
+              <CurveSVGManipulation />
+
+            </div>
+          </div>
+
+          {/* Services Grid */}
+          <div className="max-w-7xl mx-auto flex justify-center items-center flex-wrap gap-10 relative z-10 mt-20">
+            {services.map((service, index) => (
+              <ServiceCard
+                key={index}
+                icon={service.icon}
+                title={service.title}
+                description={service.description}
+                index={index}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
 

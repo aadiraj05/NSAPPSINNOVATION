@@ -65,7 +65,7 @@ function App() {
                   <Team />
                   <GetInTouchSection />
                   <ContactUs />
-                  <TestimonialCarousel />
+                  {/* <TestimonialCarousel /> */}
                   <Footer />
                 </>
               }

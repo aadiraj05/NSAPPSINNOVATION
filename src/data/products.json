@@ -14,6 +14,23 @@
         "img": "/StartupBihar.png",
         "client": "Department of Industries",
         "date": "Ongoing",
+        "team": [
+            {
+                "name": "Aditya Raj",
+                "role": "Lead Developer",
+                "image": "/Aditya.jpeg"
+            },
+            {
+                "name": "Manish Kumar",
+                "role": "UI/UX Designer",
+                "image": "/Manish.jpeg"
+            },
+            {
+                "name": "Abhishek",
+                "role": "Backend dev",
+                "image": "/Abhishek.jpeg"
+            }
+        ],
         "images": [
             "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
             "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80"
@@ -31,9 +48,21 @@
             "Buddhism",
             "Museum"
         ],
-        "img": "https://images.unsplash.com/photo-1605649487215-476786814580?auto=format&fit=crop&w=800&q=80",
+        "img": "/BudhaSamyak.png",
         "client": "Art, Culture & Youth Dept",
         "date": "Under Construction",
+        "team": [
+            {
+                "name": "Aditya Raj",
+                "role": "Project Manager",
+                "image": "/Aditya.jpeg"
+            },
+            {
+                "name": "Rohan Gupta",
+                "role": "Architect",
+                "image": "/AdityaRaj.jpeg"
+            }
+        ],
         "images": [
             "https://images.unsplash.com/photo-1568226127025-452758661601?auto=format&fit=crop&w=800&q=80",
             "https://images.unsplash.com/photo-1599837565318-67429bde8a6d?auto=format&fit=crop&w=800&q=80"
@@ -51,9 +80,21 @@
             "Subsidies",
             "Cinema"
         ],
-        "img": "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=800&q=80",
+        "img": "/BiharFilms.png",
         "client": "BSFDFC",
         "date": "Ongoing",
+        "team": [
+            {
+                "name": "Manish Kumar",
+                "role": "Creative Director",
+                "image": "/Manish.jpeg"
+            },
+            {
+                "name": "Sanya Singh",
+                "role": "Content Strategist",
+                "image": "/Aditya.jpeg"
+            }
+        ],
         "images": [
             "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80",
             "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=800&q=80"
@@ -71,9 +112,21 @@
             "History",
             "Preservation"
         ],
-        "img": "https://images.unsplash.com/photo-1588416936097-41850ab3d86d?auto=format&fit=crop&w=800&q=80",
+        "img": "/BiharHeritage.png",
         "client": "Bihar Heritage Dev Society",
         "date": "2024",
+        "team": [
+            {
+                "name": "Abhishek",
+                "role": "Tech Lead",
+                "image": "/Abhishek.jpeg"
+            },
+            {
+                "name": "Aditya Raj",
+                "role": "Historian",
+                "image": "/AdityaRaj.jpeg"
+            }
+        ],
         "images": [
             "https://images.unsplash.com/photo-1590050752117-238cb0fb9dbb?auto=format&fit=crop&w=800&q=80",
             "https://images.unsplash.com/photo-1622308644420-a94bb8a23663?auto=format&fit=crop&w=800&q=80"

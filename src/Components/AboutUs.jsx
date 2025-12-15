@@ -75,7 +75,152 @@ const BigLottie = ({ jsonUrl }) => {
 // Lottie for each section (from public)
 const WebDevLottie = () => <BigLottie jsonUrl="/WebDevDesign.json" />;
 const MobileAppLottie = () => <BigLottie jsonUrl="/MobileAppShowcase.json" />;
-const AILottie = () => <BigLottie jsonUrl="/simpleaipulse.json" />;
+const AILottie = () => <BigLottie jsonUrl="/Man and robot with computers sitting together in workplace.json" />;
+
+// Focus Scroll Item Component
+const FocusScrollItem = ({ children, isActive, isNeighbor }) => {
+  return (
+    <motion.div
+      className={`py-6 text-lg md:text-xl transition-all duration-700 ease-in-out ${isActive
+        ? 'opacity-100 blur-0 scale-100 text-gray-800 font-normal tracking-wide'
+        : isNeighbor
+          ? 'opacity-50 blur-[1px] scale-95 text-gray-400 font-light'
+          : 'opacity-20 blur-[2px] scale-90 text-gray-300 font-light'
+        }`}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Extracted Component to handle mounting/unmounting state reset automatically
+const WhoWeAreView = ({ isWhoWeAreInView, whoWeAreRef }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const listRef = useRef(null);
+  const itemRefs = useRef([]);
+  const { ref: tiltRef, handleMouseMove, handleMouseLeave } = useTilt();
+
+  const achievements = [
+    <p className="text-xs font-medium">We are <span className="font-semibold text-gray-900">NS Apps Innovations</span>.<br />And we are the team behind <span className="font-semibold text-gray-900">Bihar’s most ambitious digital transformations</span>.</p>,
+    <p className="text-xs font-medium">We are the tech team behind the <span className="font-semibold text-gray-900">Asia Hockey Men’s & Women’s Championship, Rajgir</span> — delivering live match updates, dynamic schedules, athlete insights, and a world-class event website trusted by thousands.</p>,
+    <p className="text-xs font-medium">We are the ones behind the <span className="font-semibold text-gray-900">Startup Bihar Portal</span> — the digital gateway empowering thousands of founders and shaping Bihar’s entrepreneurial rise.</p>,
+    <p className="text-xs font-medium">We engineered the <span className="font-semibold text-gray-900">Buddha Samyak Darshan Museum Ticketing System</span>, seamlessly handling 2+ lakh visitors every month with unmatched speed, reliability, and scale.</p>,
+    <p className="text-xs font-medium">We built the <span className="font-semibold text-gray-900">Bihar Film</span> and <span className="font-semibold text-gray-900">Bihar Heritage</span> websites — welcoming filmmakers, preserving culture, and showcasing the marvels of the state in modern digital form.</p>,
+    <p className="text-xs font-medium">We authenticate thousands of <span className="font-semibold text-gray-900">MMUY & Bihar Laghu Udyami Yojna</span> beneficiary attendances across all districts — ensuring secure verification, transparent monitoring, and real-time insights statewide.</p>,
+    <p className="text-xs font-medium">Our <span className="font-semibold text-gray-900">LITMAN system</span> — Bihar’s Litigation Management & Compliance Tracking platform — helps departments manage and monitor court cases with precision. Its flagship implementation, the <span className="font-semibold text-gray-900">ViSha Portal</span>, has transformed how legal workflows operate across the state.</p>,
+    <p className="text-xs font-medium">We track <span className="font-semibold text-gray-900">Awas Yojna</span> progress through GPS-accurate inspections and photo-verified audits, bringing accountability directly to the ground.</p>,
+    <p className="text-xs font-medium">We developed <span className="font-semibold text-gray-900">Bihar’s first AI-powered government chatbot</span>, and we are the design consultants behind the new, modern <span className="font-semibold text-gray-900">Bihar State Government website</span>.</p>,
+    <p className="text-xs font-medium">We captured Bihar’s greatest monuments in <span className="font-semibold text-gray-900">360° VR</span>, bringing the state’s heritage and architecture to virtual reality.</p>,
+    <p className="text-xs font-medium">We built the <span className="font-semibold text-gray-900">NRIS – Injury Report Information System</span>, a revolutionary legal-tech solution enabling injury reports in record time — now paving the way for national-level deployment.</p>,
+    <p className="text-xs font-medium">We developed the <span className="font-semibold text-gray-900">Shravani Mela App</span>, serving millions of devotees traveling from Sultanganj to BabaDham with virtual aarti, route guidance, and real-time facilities.</p>,
+    <p className="text-xs font-medium">We supported the <span className="font-semibold text-gray-900">Khelo India Youth Games</span> grievance system in Nalanda, solving athlete and event issues with fast, streamlined resolution workflows.</p>,
+    <p className="text-xs font-medium">We built the <span className="font-semibold text-gray-900">Khelo India Bhagalpur Ticket Booking Platform</span>, ensuring smooth, digital, QR-based entry for thousands of spectators.</p>,
+    <p className="text-xs font-medium">We are among the <span className="font-semibold text-gray-900">earliest tech startups of Bihar</span>, leading the frontier of <span className="font-semibold text-gray-900">AI, VR, cloud engineering</span>, and next-generation governance systems.</p>,
+    <p className="text-xs font-medium">We are scaling our platforms to national level, with a larger vision — to make Bihar a global soft power in technology. A state that builds world-class software for India and serves the world.</p>,
+    <p className="text-xs font-medium">We are <span className="font-semibold text-gray-900">NS Apps Innovations</span> — the unseen force behind Digital Innovations in Bihar. We build. We design. We innovate.</p>,
+  ];
+
+  // Auto-advance timer
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % achievements.length);
+    }, 6000); // 6 seconds
+
+    return () => clearInterval(interval);
+  }, [achievements.length]);
+
+  // Scroll to active item (Container only)
+  useEffect(() => {
+    const container = listRef.current;
+    const activeItem = itemRefs.current[currentIndex];
+
+    if (container && activeItem) {
+      const containerHeight = container.clientHeight;
+      const itemTop = activeItem.offsetTop;
+      const itemHeight = activeItem.clientHeight;
+      const scrollTo = itemTop - (containerHeight / 2) + (itemHeight / 2);
+
+      container.scrollTo({
+        top: scrollTo,
+        behavior: 'smooth'
+      });
+    }
+  }, [currentIndex]);
+
+  return (
+    <motion.div
+      key="who-we-are"
+      ref={whoWeAreRef}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5 }}
+      className="grid lg:grid-cols-2 gap-16 items-start h-[600px]"
+    >
+      {/* Left Content - AUTO SCROLL MOVIE STYLE */}
+      <div ref={listRef} className="h-full  overflow-hidden mask-gradient-vertical relative bg-white/50 backdrop-blur-sm rounded-3xl p-6 border border-white/50 shadow-sm">
+        <div className="space-y-0 py-[50%]">
+          {achievements.map((item, index) => (
+            <div
+              key={index}
+              ref={el => itemRefs.current[index] = el}
+            >
+              <FocusScrollItem
+                isActive={index === currentIndex}
+                isNeighbor={Math.abs(index - currentIndex) === 1}
+              >
+                {item}
+              </FocusScrollItem>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Right Side - 3D PNG Logo */}
+      <motion.div
+        className="relative"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={isWhoWeAreInView ? { opacity: 1, scale: 1 } : {}}
+        transition={{
+          duration: 0.8,
+          delay: 0.3,
+          ease: [0.4, 0, 0.2, 1]
+        }}
+      >
+        <div
+          ref={tiltRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="bg-[#f8f9fa] rounded-2xl flex items-center justify-center min-h-[400px] transition-transform duration-150"
+          style={{
+            transform: 'perspective(1000px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg))',
+            transformStyle: 'preserve-3d'
+          }}
+        >
+          <div
+            className="relative text-center"
+            style={{ transform: 'translateZ(40px)' }}
+          >
+            <img
+              src="/texture.png"
+              alt="NS Apps Innovations"
+              className="w-48 h-48 mx-auto object-contain select-none pointer-events-none"
+              draggable="false"
+            />
+
+            <p className="mt-8 text-2xl font-bold text-gray-900">
+              NS Apps Innovations
+            </p>
+            <p className="mt-2 text-sm text-gray-500 uppercase tracking-wider">
+              Building the Future
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
 
 const AboutUsSection = () => {
   const [activeTab, setActiveTab] = useState('who-we-are');
@@ -85,8 +230,7 @@ const AboutUsSection = () => {
   const whoWeAreRef = useRef(null);
   const isWhoWeAreInView = useInView(whoWeAreRef, { once: true, amount: 0.3 });
 
-  const { ref: tiltRef, handleMouseMove, handleMouseLeave } = useTilt();
-
+  // ... (sections definition remains same)
   const sections = [
     {
       id: 'web-development',
@@ -110,21 +254,9 @@ const AboutUsSection = () => {
 
   const currentSection = sections.find(section => section.id === activeSection);
 
-  const whoWeAreContent = [
-    {
-      icon: '',
-      text: 'NS Apps Innovations is a creative tech company focused on building modern websites, Android apps, and AI tools with exceptional design and performance.'
-    },
-    {
-      text: "We're a passionate team of developers and designers who believe in blending innovation, creativity, and technology to craft experiences that truly stand out."
-    },
-    {
-      text: 'Our goal is simple — to turn bold ideas into interactive, meaningful digital experiences that inspire.'
-    }
-  ];
 
   return (
-    <section className="relative bg-gray-50 py-20 px-4 z-[10]">
+    <section className="relative bg-gray-50 py-20 px-4 z-[10]" id='about-section'>
       <div className="max-w-6xl mx-auto">
         {/* Tab Navigation with Animated Underlines */}
         <motion.div
@@ -206,77 +338,7 @@ const AboutUsSection = () => {
         <AnimatePresence mode="wait">
           {/* WHO WE ARE CONTENT */}
           {activeTab === 'who-we-are' && (
-            <motion.div
-              key="who-we-are"
-              ref={whoWeAreRef}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="grid lg:grid-cols-2 gap-16 items-start"
-            >
-              {/* Left Content */}
-              <div className="space-y-6 pt-16">
-                {whoWeAreContent.map((item, index) => (
-                  <motion.p
-                    key={index}
-                    className="text-base text-gray-600 leading-relaxed"
-                    initial={{ opacity: 0, x: -30 }}
-                    animate={isWhoWeAreInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{
-                      duration: 0.6,
-                      delay: index * 0.15,
-                      ease: [0.4, 0, 0.2, 1]
-                    }}
-                  >
-                    {item.icon && <span className="mr-2">{item.icon}</span>}
-                    {item.text}
-                  </motion.p>
-                ))}
-              </div>
-
-              {/* Right Side - 3D PNG Logo */}
-              <motion.div
-                className="relative"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={isWhoWeAreInView ? { opacity: 1, scale: 1 } : {}}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.3,
-                  ease: [0.4, 0, 0.2, 1]
-                }}
-              >
-                <div
-                  ref={tiltRef}
-                  onMouseMove={handleMouseMove}
-                  onMouseLeave={handleMouseLeave}
-                  className="bg-white rounded-2xl shadow-[0_24px_80px_rgba(15,23,42,0.18)] border border-gray-100 flex items-center justify-center min-h-[400px] transition-transform duration-150"
-                  style={{
-                    transform: 'perspective(1000px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg))',
-                    transformStyle: 'preserve-3d'
-                  }}
-                >
-                  <div
-                    className="relative text-center"
-                    style={{ transform: 'translateZ(40px)' }}
-                  >
-                    <img
-                      src="/texture.png"
-                      alt="NS Apps Innovations"
-                      className="w-48 h-48 mx-auto object-contain select-none pointer-events-none"
-                      draggable="false"
-                    />
-
-                    <p className="mt-8 text-2xl font-bold text-gray-900">
-                      NS Apps Innovations
-                    </p>
-                    <p className="mt-2 text-sm text-gray-500 uppercase tracking-wider">
-                      Building the Future
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            </motion.div>
+            <WhoWeAreView isWhoWeAreInView={isWhoWeAreInView} whoWeAreRef={whoWeAreRef} />
           )}
 
           {/* WHAT WE DO CONTENT */}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Spline from "@splinetool/react-spline";
+// import Spline from "@splinetool/react-spline";
 import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import ConnectPanel from "../Bttons/ConnectPanel";
@@ -24,10 +24,10 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   const teamMembers = [
-    { id: 1, image: "https://media.licdn.com/dms/image/v2/D5603AQEk-OM0mDJnkQ/profile-displayphoto-shrink_800_800/B56ZZojkV5GQAg-/0/1745510877242?e=1765411200&v=beta&t=nuHQ2kXeFZfOQdcPCljPptIUW1fR7zhF8a95MS0uiz4", name: "Team Member 1" },
-    { id: 2, image: "https://media.licdn.com/dms/image/v2/D4D03AQHgdEA3WVAhNQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1692214950711?e=1765411200&v=beta&t=_rVEG7UleCcO-VIPbhVJaL1ydgLRXVDiVO3L08BOGAQ", name: "Team Member 2" },
-    { id: 3, image: "https://media.licdn.com/dms/image/v2/D5603AQExFwrFWBhafA/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1702654018781?e=1765411200&v=beta&t=5M3cHkL2k9BGF5uyDEvt-F-z3X3IvepQXLwcLpgB5FA", name: "Team Member 3" },
-    { id: 4, image: "https://media.licdn.com/dms/image/v2/D4D03AQEq17gHXLfK7Q/profile-displayphoto-shrink_800_800/B4DZSRvrVTGcAc-/0/1737611983348?e=1765411200&v=beta&t=0WgrsWrI1E9o2DsWcnmFxKSjtGabEZOP-9WLA3fu8nM", name: "Team Member 4" }
+    { id: 1, image: "/Aditya.jpeg", name: "Team Member 1" },
+    { id: 2, image: "/Abhishek.jpeg", name: "Team Member 2" },
+    { id: 3, image: "/AdityaRaj.jpeg", name: "Team Member 3" },
+    { id: 4, image: "/Manish.jpeg", name: "Team Member 4" }
   ];
 
   const scrollToTeamSection = () => {
@@ -128,7 +128,7 @@ const Hero = () => {
   ];
 
   return (
-    <div className="relative h-[100vh] w-full overflow-hidden z-[400]" id="hero-section">
+    <div className="relative h-[100vh] w-full overflow-hidden z-[10]" id="hero-section">
       <AnimatePresence>
         {isAnyPanelOpen && (
           <motion.div
@@ -168,7 +168,7 @@ const Hero = () => {
 
         {/* Top Right - Connect Button - NAVBAR STYLE */}
         <motion.div
-          className="absolute top-5 right-8 z-[100] " id="contact-section"
+          className="absolute top-5 right-8 z-[100] "
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
@@ -423,11 +423,16 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        <div className="absolute inset-0 w-full h-full overflow-hidden">
-          <div className="w-[150%] h-[150%] -ml-[25%] -mt-[25%] md:w-[125%] md:h-[125%] md:-ml-[12.5%] md:-mt-[12.5%]">
-            <Spline scene="https://prod.spline.design/qBXYgDd7378mKcb0/scene.splinecode" />
-          </div>
-        </div>
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        >
+          <source src="/HeroVideo.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
       </motion.section>
 
       <AnimatePresence>
