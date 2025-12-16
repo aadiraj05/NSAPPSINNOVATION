@@ -6,8 +6,6 @@ import AboutUs from "./Components/AboutUs";
 // import TestimonialCarousel from "./Components/Testimonial";
 import Footer from "./Components/Footer";
 import SplashScreen from "./Components/SplashScreen";
-import About from "./Components/About";
-import Contact from "./Components/Contact";
 import Team from "./Components/Team";
 // import GetInTouchSection from "./Components/GetInTouchSection";
 import ContactUs from "./Components/ContactUs";
@@ -74,8 +72,8 @@ function App() {
 
 
             {/* Other Pages */}
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
+            
+            
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/service/:id" element={<ServiceDetail />} />
            
