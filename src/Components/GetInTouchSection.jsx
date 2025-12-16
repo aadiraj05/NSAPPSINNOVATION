@@ -3,19 +3,22 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Sir from "/sir.png"
 
+
 gsap.registerPlugin(ScrollTrigger);
+
 
 const GetInTouchSection = () => {
   const containerRef = useRef(null);
-  const textWrapperRef = useRef(null);
   const imageContainerRef = useRef(null);
   const imageRef = useRef(null);
   const chatBubblesRef = useRef([]);
 
+
   // Function to scroll to contact section
   const scrollToContact = (e) => {
-    e.preventDefault(); // ✅ Prevent default behavior
-    e.stopPropagation(); // ✅ Stop event bubbling
+    e.preventDefault();
+    e.stopPropagation();
+
 
     const contactSection = document.getElementById('contact-us');
     if (contactSection) {
@@ -26,43 +29,14 @@ const GetInTouchSection = () => {
     }
   };
 
+
   useEffect(() => {
-    if (!containerRef.current || !textWrapperRef.current || !imageContainerRef.current) return;
+    if (!containerRef.current || !imageContainerRef.current) return;
+
 
     const ctx = gsap.context(() => {
-      const textWidth = textWrapperRef.current.scrollWidth;
-      const windowWidth = window.innerWidth;
-
-      // Master timeline for horizontal scroll
-      const masterTimeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: () => `+=${textWidth - windowWidth + 1500}`,
-          scrub: 1,
-          pin: true,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          fastScrollEnd: true,
-          preventOverlaps: true,
-          // ✅ Add this to prevent scroll interference
-          onLeave: () => {
-            // Ensure ScrollTrigger doesn't interfere with navigation
-            ScrollTrigger.refresh();
-          }
-        }
-      });
-
-      // Horizontal text scroll
-      masterTimeline.to(textWrapperRef.current, {
-        x: () => -(textWidth - windowWidth),
-        ease: "none",
-        duration: 3,
-        force3D: true
-      }, 0);
-
       // Image section appears
-      masterTimeline.fromTo(
+      gsap.fromTo(
         imageContainerRef.current,
         { opacity: 0, scale: 0.8 },
         {
@@ -70,13 +44,18 @@ const GetInTouchSection = () => {
           scale: 1,
           ease: "power2.out",
           duration: 1,
-          force3D: true
-        },
-        0.5
+          force3D: true,
+          scrollTrigger: {
+            trigger: imageContainerRef.current,
+            start: "top 80%",
+            toggleActions: "play none none none"
+          }
+        }
       );
 
+
       // Image itself reveals
-      masterTimeline.fromTo(
+      gsap.fromTo(
         imageRef.current,
         { scale: 1.2, opacity: 0 },
         {
@@ -84,109 +63,103 @@ const GetInTouchSection = () => {
           opacity: 1,
           ease: "power2.out",
           duration: 0.8,
-          force3D: true
-        },
-        1.0
+          force3D: true,
+          scrollTrigger: {
+            trigger: imageRef.current,
+            start: "top 75%",
+            toggleActions: "play none none none"
+          }
+        }
       );
 
-      // Chat bubbles and badges stagger in
+
+      // Animate each bubble individually with scroll trigger
       const validBubbles = chatBubblesRef.current.filter(el => el !== null);
 
-      masterTimeline.fromTo(
-        validBubbles,
-        {
-          y: 50,
-          opacity: 0,
-          scale: 0.5
-        },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          stagger: {
-            amount: 1,
-            from: "start"
-          },
-          ease: "back.out(1.7)",
-          duration: 0.6,
-          force3D: true
-        },
-        1.5
-      );
 
-      // Floating animation for badges
-      masterTimeline.add(() => {
-        validBubbles.forEach((bubble, index) => {
-          if (bubble) {
-            gsap.to(bubble, {
-              y: "+=8",
-              duration: 2 + (index * 0.2),
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-              delay: index * 0.15,
-              force3D: true
-            });
-          }
-        });
-      }, 2.2);
-    }, containerRef); // Scope to containerRef
+      validBubbles.forEach((bubble, index) => {
+        if (bubble) {
+          // Entrance animation
+          gsap.fromTo(
+            bubble,
+            {
+              y: 50,
+              opacity: 0,
+              scale: 0.5
+            },
+            {
+              y: 0,
+              opacity: 1,
+              scale: 1,
+              ease: "back.out(1.7)",
+              duration: 0.6,
+              delay: index * 0.15, // Stagger delay
+              force3D: true,
+              scrollTrigger: {
+                trigger: bubble,
+                start: "top 85%",
+                toggleActions: "play none none none"
+              }
+            }
+          );
+
+
+          // Floating animation (starts after entrance)
+          gsap.to(bubble, {
+            y: "+=8",
+            duration: 2 + (index * 0.2),
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: (index * 0.15) + 0.6, // Wait for entrance to finish
+            force3D: true
+          });
+        }
+      });
+    }, containerRef);
+
 
     const handleResize = () => {
       ScrollTrigger.refresh();
     };
 
+
     window.addEventListener('resize', handleResize);
+
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      ScrollTrigger.getAll().forEach(t => t.kill()); // Kill all triggers to force unpin
-      ctx.revert(); // Cleanup everything
+      ctx.revert();
     };
   }, []);
+
 
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen bg-[#ffffff] overflow-hidden pt-24"
-      id="get-in-touch" // ✅ Changed from "contact-section" to match common patterns
+      className="relative min-h-screen bg-[#ffffff] overflow-hidden py-20"
+      id="get-in-touch"
     >
-      {/* Container for both text and image sections */}
-      <div className="relative h-screen flex flex-col justify-between">
-
-        {/* Horizontal Scrolling Text - Top Section */}
-        <div className="relative z-10 h-[30vh] flex items-start pt-8">
-          <div
-            ref={textWrapperRef}
-            className="flex items-center whitespace-nowrap will-change-transform px-8"
-            style={{ transform: 'translateZ(0)' }}
-          >
-            <h1 className="text-[clamp(3rem,10vw,8rem)] font-black text-black leading-none tracking-tighter mr-8 md:mr-12">
-              GET IN
-            </h1>
-            <h1 className="text-[clamp(3rem,10vw,8rem)] font-black text-black leading-none tracking-tighter mr-8 md:mr-12">
-              TOUCH
-            </h1>
-            <h1 className="text-[clamp(3rem,10vw,8rem)] font-black text-black leading-none tracking-tighter mr-8 md:mr-12">
-              WITH
-            </h1>
-            <h1 className="text-[clamp(3rem,10vw,8rem)] font-black text-black leading-none tracking-tighter mr-8 md:mr-12">
-              NS APPS
-            </h1>
-            <h1 className="text-[clamp(3rem,10vw,8rem)] font-black text-black leading-none tracking-tighter mr-8 md:mr-12">
-              INNOVATIONS
-            </h1>
-            <div className="w-[clamp(3rem,8vw,6rem)] h-[clamp(3rem,8vw,6rem)] bg-gray-900 rounded-full flex-shrink-0"></div>
-          </div>
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Static Text - Fits on Screen */}
+        <div className="relative z-10 mb-16 text-center">
+          <h1 className="text-[clamp(2.5rem,8vw,6rem)] font-black text-black leading-tight tracking-tighter">
+            GET IN TOUCH
+          </h1>
+          <h1 className="text-[clamp(2.5rem,8vw,6rem)] font-black text-black leading-tight tracking-tighter">
+            WITH NS APPS INNOVATIONS
+          </h1>
         </div>
 
-        {/* Image Section with Chat Bubbles - Bottom Section */}
+
+        {/* Image Section with Chat Bubbles */}
         <div
           ref={imageContainerRef}
-          className="relative flex-1 flex items-center justify-center px-6 pb-10"
+          className="relative flex items-center justify-center px-6"
           style={{ transform: 'translateZ(0)' }}
         >
           <div className="relative flex items-center justify-center w-full max-w-[90rem]">
+
 
             {/* Center Image */}
             <img
@@ -196,6 +169,7 @@ const GetInTouchSection = () => {
               className="relative w-[420px] h-[480px] sm:w-[500px] sm:h-[560px] md:w-[600px] md:h-[650px] lg:w-[700px] lg:h-[750px] xl:w-[800px] xl:h-[850px] rounded-3xl object-cover object-center"
               style={{ willChange: 'transform', transform: 'translateZ(0)', zIndex: 1 }}
             />
+
 
             {/* Left Side - Text Bubbles */}
             <div className="absolute left-4 md:left-8 lg:left-12 xl:left-20 top-[15%] space-y-4 max-w-[240px] md:max-w-[280px] lg:max-w-sm hidden md:block z-10">
@@ -208,6 +182,7 @@ const GetInTouchSection = () => {
                 Nishant
               </div>
 
+
               {/* Text Bubble */}
               <div
                 ref={el => chatBubblesRef.current[1] = el}
@@ -219,6 +194,7 @@ const GetInTouchSection = () => {
                 </p>
               </div>
 
+
               {/* Subtext */}
               <div
                 ref={el => chatBubblesRef.current[2] = el}
@@ -228,6 +204,7 @@ const GetInTouchSection = () => {
                 Let's create something amazing together!
               </div>
 
+
               {/* Send Message Button */}
               <div
                 ref={el => chatBubblesRef.current[3] = el}
@@ -235,12 +212,13 @@ const GetInTouchSection = () => {
               >
                 <button
                   onClick={scrollToContact}
-                  onMouseDown={(e) => e.stopPropagation()} // ✅ Prevent interference
+                  onMouseDown={(e) => e.stopPropagation()}
                   className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 md:px-8 md:py-4 rounded-full font-bold text-sm md:text-base shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer relative z-50"
                 >
                   SEND MESSAGE
                 </button>
               </div>
+
 
               {/* Team Badge */}
               <div
@@ -253,6 +231,7 @@ const GetInTouchSection = () => {
               </div>
             </div>
 
+
             {/* Right Side - Text Bubbles */}
             <div className="absolute right-4 md:right-8 lg:right-12 xl:right-20 top-[15%] space-y-4 max-w-[240px] md:max-w-[280px] lg:max-w-md hidden md:block z-10">
               {/* Developer Badge */}
@@ -264,6 +243,7 @@ const GetInTouchSection = () => {
                 <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                 Full Stack Developer
               </div>
+
 
               {/* Why Nishant? Section */}
               <div
@@ -280,6 +260,7 @@ const GetInTouchSection = () => {
                 </p>
               </div>
 
+
               {/* Client Badge */}
               <div
                 ref={el => chatBubblesRef.current[7] = el}
@@ -289,6 +270,7 @@ const GetInTouchSection = () => {
                 <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
                 50+ Projects
               </div>
+
 
               {/* Innovation Badge */}
               <div
@@ -305,5 +287,6 @@ const GetInTouchSection = () => {
     </section>
   );
 };
+
 
 export default GetInTouchSection;

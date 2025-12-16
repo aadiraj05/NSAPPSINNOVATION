@@ -12,7 +12,7 @@ import AboutUs from "./Components/AboutUs";
 import Footer from "./Components/Footer";
 import SplashScreen from "./Components/SplashScreen";
 import Team from "./Components/Team";
-// import GetInTouchSection from "./Components/GetInTouchSection";
+import GetInTouchSection from "./Components/GetInTouchSection";
 import ContactUs from "./Components/ContactUs";
 import ServicesSection from "./Components/ServicesSection";
 import ProductSection from "./Components/ProductSection";
@@ -65,7 +65,7 @@ function App() {
                   <ProductSection />
                   <ServiceSection />
                   <Team />
-                  {/* <GetInTouchSection /> */}
+                  <GetInTouchSection />
                   <ContactUs />
                   {/* <TestimonialCarousel /> */}
                   <Footer />

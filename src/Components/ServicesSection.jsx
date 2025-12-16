@@ -1,16 +1,20 @@
 import React, { useRef, useEffect } from 'react';
-import { Smartphone, Laptop, Palette, Rocket } from 'lucide-react';
+import { Smartphone, Laptop, Palette, Glasses } from 'lucide-react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import CurveSVGManipulation from '../Components/Svgmanupulation';
 
+
 gsap.registerPlugin(ScrollTrigger);
+
 
 const ServiceCard = ({ icon: Icon, title, description, index, clipStyle }) => {
   const cardRef = useRef(null);
 
+
   useEffect(() => {
     const el = cardRef.current;
+
 
     gsap.fromTo(
       el,
@@ -31,12 +35,14 @@ const ServiceCard = ({ icon: Icon, title, description, index, clipStyle }) => {
       }
     );
 
+
     return () => {
       ScrollTrigger.getAll().forEach(trigger => {
         if (trigger.trigger === el) trigger.kill();
       });
     };
   }, []);
+
 
   return (
     <div ref={cardRef} className="relative mt-10">
@@ -53,16 +59,19 @@ const ServiceCard = ({ icon: Icon, title, description, index, clipStyle }) => {
               </div>
             </div>
 
+
             {/* Title and Description */}
             <div>
               <h3 className="text-2xl font-bold text-gray-900 group-hover:text-white transition-colors duration-500 mb-4 tracking-tight">
                 {title}
               </h3>
 
+
               <p className="text-gray-600 group-hover:text-gray-300 transition-colors duration-500 leading-relaxed text-sm">
                 {description}
               </p>
             </div>
+
 
             {/* Hover Arrow */}
             <div className="mt-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
@@ -80,6 +89,7 @@ const ServiceCard = ({ icon: Icon, title, description, index, clipStyle }) => {
         </div>
       </div>
 
+
       {/* Number indicator */}
       <p className="absolute top-2 left-1 z-50 text-black/70 font-mono text-sm tracking-wider">
         / 0{index + 1}
@@ -87,6 +97,7 @@ const ServiceCard = ({ icon: Icon, title, description, index, clipStyle }) => {
     </div>
   );
 };
+
 
 const ServicesSection = () => {
   const services = [
@@ -109,16 +120,18 @@ const ServicesSection = () => {
         'User-centered interfaces that merge strong visual identity with intuitive flows.',
     },
     {
-      icon: Rocket,
-      title: 'Digital Strategy',
+      icon: Glasses,
+      title: 'VR / AR Experiences',
       description:
-        'End-to-end digital solutions, from concept and MVP to growth-focused launch plans.',
+        'Immersive 360° virtual reality and augmented reality solutions that transform how users interact with digital content.',
     },
   ];
+
 
   const clipPathStyle = {
     clipPath: 'polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)'
   };
+
 
   return (
     <>
@@ -134,11 +147,14 @@ const ServicesSection = () => {
             </div>
 
 
+
             <div className="w-full overflow-visible flex w-full z-50 absolute top-[10%] right-14">
               <CurveSVGManipulation />
 
+
             </div>
           </div>
+
 
           {/* Services Grid */}
           <div className="max-w-7xl mx-auto flex justify-center items-center flex-wrap gap-10 relative z-10 mt-20">
@@ -158,5 +174,6 @@ const ServicesSection = () => {
     </>
   );
 };
+
 
 export default ServicesSection;
