@@ -1,281 +1,187 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { FaLinkedin, FaFacebookF, FaInstagram, FaTwitter } from 'react-icons/fa';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useState } from "react";
 
-gsap.registerPlugin(ScrollTrigger);
+import {
+  FaLinkedin,
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaPaperPlane,
+} from "react-icons/fa";
 
-const ContactSection = () => {
+const ContactUs = () => {
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    message: ''
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const sectionRef = useRef(null);
-  const titleRef = useRef(null);
-  const socialRef = useRef(null);
-  const buttonRef = useRef(null);
-
-  useEffect(() => {
-    if (!sectionRef.current) return;
-
-    const animations = [];
-
-    // Header animation
-    if (titleRef.current) {
-      const headerAnim = gsap.fromTo(
-        titleRef.current,
-        { y: -50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 85%",
-            end: "top 50%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
-      animations.push(headerAnim);
-    }
-
-    // Form inputs animation
-    const formInputs = sectionRef.current.querySelectorAll('.form-field');
-    if (formInputs.length > 0) {
-      const formAnim = gsap.fromTo(
-        formInputs,
-        { x: -80, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.15,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: formInputs[0],
-            start: "top 75%",
-            end: "top 40%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
-      animations.push(formAnim);
-    }
-
-    // Social icons animation
-    if (socialRef.current) {
-      const socialIcons = socialRef.current.querySelectorAll('.social-icon');
-      if (socialIcons.length > 0) {
-        const socialAnim = gsap.fromTo(
-          socialIcons,
-          { scale: 0, opacity: 0, rotation: -180 },
-          {
-            scale: 1,
-            opacity: 1,
-            rotation: 0,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "back.out(1.7)",
-            scrollTrigger: {
-              trigger: socialRef.current,
-              start: "top 80%",
-              end: "top 50%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-        animations.push(socialAnim);
-      }
-    }
-
-    // Submit button animation
-    if (buttonRef.current) {
-      const buttonAnim = gsap.fromTo(
-        buttonRef.current,
-        { scale: 0, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.8,
-          ease: "elastic.out(1, 0.5)",
-          scrollTrigger: {
-            trigger: buttonRef.current,
-            start: "top 90%",
-            end: "top 60%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
-      animations.push(buttonAnim);
-    }
-
-    // Cleanup function
-    return () => {
-      animations.forEach(anim => {
-        if (anim.scrollTrigger) anim.scrollTrigger.kill();
-        anim.kill();
-      });
-    };
-  }, []);
 
   const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form Submitted", formData);
+    alert("Message Sent!");
     setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      message: "",
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setIsSubmitting(false);
-      setFormData({ fullName: '', email: '', message: '' });
-      alert('Message sent successfully!');
-    }, 2000);
-  };
-
-  const socialLinks = [
-    { icon: FaLinkedin, url: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: FaFacebookF, url: 'https://facebook.com', label: 'Facebook' },
-    { icon: FaInstagram, url: 'https://instagram.com', label: 'Instagram' },
-    { icon: FaTwitter, url: 'https://twitter.com', label: 'Twitter' }
-  ];
-
   return (
-    <section 
-      ref={sectionRef}
-      className="relative min-h-screen bg-white overflow-hidden z-10 " id='contact-section'
+    <div
+      className="relative w-full min-h-screen bg-white flex flex-col font-sans"
+      id="contact-section"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.1)_1px,transparent_1px)] bg-[length:50px_50px]"></div>
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-6 py-20">
-        {/* Header Section */}
-        <div ref={titleRef} className="mb-16">
-          <h2 className="text-6xl md:text-8xl font-bold text-black tracking-tight mb-8">
-            CONTACT
-          </h2>
+      {/* --- Top part white color --- */}
+      <div className="w-full h-1/2 flex-grow relative z-10 px-6 md:px-8 lg:px-16 pt-12 md:pt-20 lg:pt-32 pb-32 md:pb-40 lg:pb-48">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row">
+          {/* heading and paragraph on the left hand side - Hidden on mobile */}
+          <div className="hidden lg:block w-full lg:w-1/2 pr-0 lg:pr-12 transform lg:translate-y-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Contact Us
+            </h2>
+            <p className="text-gray-500 text-xs leading-relaxed max-w-md">
+              We are an industry-leading company that values honesty, integrity,
+              and efficiency. Building quality products and caring.
+            </p>
+          </div>
         </div>
 
-        {/* Form Section */}
-        <div className="grid lg:grid-cols-2 gap-16 items-start mb-32">
-          {/* Left Side - Form */}
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-8"
-          >
-            {/* Full Name Input */}
-            <div className="relative form-field">
-              <label className="block text-sm font-medium text-gray-700 mb-2 uppercase tracking-wider">
-                Full Name *
+        {/* Blob - Positioned differently for mobile vs desktop */}
+        <img
+          src="blob.svg"
+          className="absolute size-64 md:size-80 lg:size-96 
+                     top-20 left-1/2 -translate-x-1/2 
+                     md:top-32 md:left-1/2 md:-translate-x-1/2
+                     lg:top-1/2 lg:left-1/2 lg:translate-x-72 lg:-translate-y-60 
+                     rotate-45 opacity-80 lg:opacity-100"
+          alt="blob"
+        />
+      </div>
+
+      {/* --- Bottom part gray-900 color --- */}
+      <div className="relative w-full bg-gray-900 h-[150px] md:h-[250px] lg:h-[300px] flex items-end overflow-hidden">
+        {/* Banner Background */}
+        <img
+          src="/contactUSBanner.svg"
+          alt="Contact Banner"
+          className="absolute inset-0 w-full h-full object-cover opacity-40 z-0"
+        />
+      </div>
+
+      {/* --- Floating form card --- */}
+      <div
+        className="absolute 
+                      top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2
+                      md:top-1/2 md:-translate-y-[45%]
+                      lg:top-1/2 lg:translate-x-0 lg:left-auto lg:right-[10%] lg:-translate-y-[40%]
+                      w-[90%] max-w-[420px] 
+                      md:max-w-[500px] 
+                      lg:w-[500px] 
+                      bg-white rounded-xl shadow-2xl z-20 
+                      p-6 md:p-8 lg:p-10"
+      >
+        <h3 className="text-lg md:text-xl lg:text-2xl font-bold text-gray-900 mb-6 md:mb-8">
+          Need help with your queries?
+        </h3>
+
+        <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
+          {/* Name Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+            <div className="group">
+              <label className="block text-xs font-bold text-gray-700 mb-1">
+                First Name
               </label>
               <input
                 type="text"
-                name="fullName"
-                value={formData.fullName}
+                name="firstName"
+                value={formData.firstName}
                 onChange={handleChange}
+                placeholder="Aditya Kumar"
+                className="w-full border-b border-gray-300 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-500 transition-colors"
                 required
-                className="w-full bg-transparent border-b-2 border-gray-300 py-3 px-0 text-black placeholder-gray-400 focus:outline-none focus:border-black transition-colors duration-300"
-                placeholder="Your name"
               />
             </div>
+            <div className="group">
+              <label className="block text-xs font-bold text-gray-700 mb-1">
+                Last Name
+              </label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Last Name"
+                className="w-full border-b border-gray-300 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-500 transition-colors"
+                required
+              />
+            </div>
+          </div>
 
-            {/* Email Input */}
-            <div className="relative form-field">
-              <label className="block text-sm font-medium text-gray-700 mb-2 uppercase tracking-wider">
-                Email *
+          {/* Email & Phone Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+            <div className="group">
+              <label className="block text-xs font-bold text-gray-700 mb-1">
+                Email
               </label>
               <input
                 type="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
+                placeholder="Email"
+                className="w-full border-b border-gray-300 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-500 transition-colors"
                 required
-                className="w-full bg-transparent border-b-2 border-gray-300 py-3 px-0 text-black placeholder-gray-400 focus:outline-none focus:border-black transition-colors duration-300"
-                placeholder="your.email@example.com"
               />
             </div>
-
-            {/* Message Textarea */}
-            <div className="relative form-field">
-              <label className="block text-sm font-medium text-gray-700 mb-2 uppercase tracking-wider">
-                Message *
+            <div className="group">
+              <label className="block text-xs font-bold text-gray-700 mb-1">
+                Phone Number
               </label>
-              <textarea
-                name="message"
-                value={formData.message}
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
                 onChange={handleChange}
-                required
-                rows="4"
-                className="w-full bg-transparent border-b-2 border-gray-300 py-3 px-0 text-black placeholder-gray-400 focus:outline-none focus:border-black transition-colors duration-300 resize-none"
-                placeholder="Tell us about your project..."
-              ></textarea>
-            </div>
-          </form>
-
-          {/* Right Side - Social Links */}
-          <div
-            ref={socialRef}
-            className="flex justify-end items-start pt-12"
-          >
-            <div className="flex gap-6">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="social-icon w-14 h-14 bg-black rounded-full flex items-center justify-center text-white hover:bg-gray-800 hover:scale-110 hover:-translate-y-2 transition-all duration-300 shadow-lg"
-                  aria-label={social.label}
-                >
-                  <social.icon className="text-xl" />
-                </a>
-              ))}
+                placeholder="Phone Number"
+                className="w-full border-b border-gray-300 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-500 transition-colors"
+              />
             </div>
           </div>
-        </div>
 
-        {/* Submit Button */}
-        <div className="flex justify-end mb-20">
+          {/* Message */}
+          <div className="group">
+            <label className="block text-xs font-bold text-gray-700 mb-1">
+              Message
+            </label>
+            <textarea
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              placeholder="Message"
+              rows={3}
+              className="w-full border-b border-gray-300 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-gray-500 transition-colors resize-none"
+              required
+            ></textarea>
+          </div>
+
           <button
-            ref={buttonRef}
             type="submit"
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-            className="group relative w-20 h-20 bg-black rounded-full flex items-center justify-center text-white hover:bg-gray-800 hover:scale-110 transition-all duration-300 shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gray-600 text-white font-bold py-3 md:py-4 rounded-md shadow-lg hover:bg-gray-900 hover:shadow-xl transition-all duration-300 text-xs md:text-sm tracking-wide uppercase mt-4"
           >
-            {isSubmitting ? (
-              <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            ) : (
-              <svg
-                className="w-8 h-8 transform group-hover:translate-x-1 transition-transform duration-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            )}
+            Submit
           </button>
-        </div>
+        </form>
       </div>
-    </section>
+    </div>
   );
 };
 
-export default ContactSection;
+export default ContactUs;

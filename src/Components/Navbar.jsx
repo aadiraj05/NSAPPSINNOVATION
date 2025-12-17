@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 const TopNavbar = () => {
   const [activeTab, setActiveTab] = useState("hero-section");
-  const [isVisible, setIsVisible] = useState(true);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true); // For center navbar
+  const [isTopVisible, setIsTopVisible] = useState(true); // For logo and connect button
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -11,14 +13,24 @@ const TopNavbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.pageYOffset;
+
+      // 1. Logic for Logo & Connect Button (Only visible at very top)
       if (currentScrollY < 10) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY) {
-        setIsVisible(false);
-        setIsMobileMenuOpen(false); // Close menu on scroll down
+        setIsTopVisible(true);
       } else {
-        setIsVisible(true);
+        setIsTopVisible(false);
       }
+
+      // 2. Logic for Center Navbar (Hide on scroll down, Show on scroll up)
+      if (currentScrollY < 10) {
+        setIsNavbarVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        setIsNavbarVisible(false); // Hide on scroll down
+        setIsMobileMenuOpen(false);
+      } else {
+        setIsNavbarVisible(true); // Show on scroll up
+      }
+
       setLastScrollY(currentScrollY);
     };
 
@@ -166,9 +178,10 @@ const TopNavbar = () => {
         className="fixed top-5 left-5 md:left-12 z-[500]"
         initial={{ opacity: 0, x: -50 }}
         animate={{
-          opacity: isVisible ? 1 : 0,
-          x: isVisible ? 0 : -50,
-          y: isVisible ? 0 : -100,
+          opacity: isTopVisible ? 1 : 0,
+          x: isTopVisible ? 0 : -50,
+          y: isTopVisible ? 0 : -100,
+          pointerEvents: isTopVisible ? "auto" : "none",
         }}
         transition={{ duration: 0.3 }}
       >
@@ -180,14 +193,15 @@ const TopNavbar = () => {
         />
       </motion.div>
 
-      {/* 2. Center Navbar - Independent */}
+      {/* 2. Center Navbar */}
       <motion.div
         className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-[500] transition-all duration-300 ${
           isMobileMenuOpen ? "w-[90%] md:w-auto" : "w-auto"
         }`}
         animate={{
-          y: isVisible ? 0 : -120,
-          opacity: isVisible ? 1 : 0,
+          y: isNavbarVisible ? 0 : -120,
+          opacity: isNavbarVisible ? 1 : 0,
+          pointerEvents: isNavbarVisible ? "auto" : "none",
         }}
         transition={{ duration: 0.3 }}
       >
@@ -195,89 +209,35 @@ const TopNavbar = () => {
           {/* Outer glass border */}
           <div className="absolute inset-0 bg-transparent backdrop-blur-sm rounded-[2rem] border border-white shadow-[0_8px_32px_rgba(255,255,255,0.1)]"></div>
 
-          {/* Inner layer */}
-          <div className="absolute inset-[6px] bg-white/50 rounded-[1.7rem] shadow-[0_4px_16px_rgba(0,0,0,0.08)]"></div>
+          {/* Inner layer - Only visible if menu is open or on desktop */}
+          <div
+            className={`absolute inset-[6px] bg-white/50 rounded-[1.7rem] shadow-[0_4px_16px_rgba(0,0,0,0.08)] ${
+              !isMobileMenuOpen ? "hidden lg:block" : ""
+            }`}
+          ></div>
 
           {/* Navbar content */}
           <div className="relative px-2 py-2 flex flex-col items-center justify-center transition-all duration-300">
-            {/* Mobile Toggle & Active Tab (When collapsed) */}
-            <div className="flex items-center justify-between w-full md:w-auto md:hidden">
-              {!isMobileMenuOpen && (
-                <div className="flex items-center px-4 py-2 space-x-2">
-                  <div className="p-1.5 bg-white/40 rounded-full">
-                    {navItems.find((item) => item.id === activeTab)?.icon}
-                  </div>
-                  <span className="text-sm font-semibold text-gray-800">
-                    {navItems.find((item) => item.id === activeTab)?.name ||
-                      "Menu"}
-                  </span>
-                </div>
-              )}
-
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`p-2 rounded-full transition-colors ${
-                  isMobileMenuOpen ? "ml-auto" : ""
-                } hover:bg-white/30`}
-              >
-                <div
-                  className={`w-6 h-6 flex flex-col justify-center gap-[5px] transition-all duration-300 ${
-                    isMobileMenuOpen ? "rotate-90" : ""
-                  }`}
-                >
-                  {isMobileMenuOpen ? (
-                    <svg
-                      className="w-6 h-6 text-gray-800"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  ) : (
-                    <svg
-                      className="w-6 h-6 text-gray-800"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 6h16M4 12h16m-7 6h7"
-                      />
-                    </svg>
-                  )}
-                </div>
-              </button>
-            </div>
-
             {/* Nav Items Container */}
             <div
               className={`${
                 isMobileMenuOpen
-                  ? "flex flex-col w-full mt-2 space-y-2 opacity-100 max-h-[500px]"
+                  ? "flex flex-col w-full mt-2 space-y-2 opacity-100 max-h-[500px] p-4 bg-white/80 backdrop-blur-md rounded-2xl lg:bg-transparent lg:p-0"
                   : "hidden opacity-0 max-h-0"
-              } md:flex md:flex-row md:items-center md:space-x-4 md:mt-0 md:opacity-100 md:max-h-none md:w-auto overflow-hidden transition-all duration-500 ease-in-out`}
+              } lg:flex lg:flex-row lg:items-center lg:space-x-4 lg:mt-0 lg:opacity-100 lg:max-h-none lg:w-auto overflow-hidden transition-all duration-500 ease-in-out`}
             >
               {navItems.map((item, idx) => (
                 <button
                   key={idx}
                   onClick={() => scrollToSection(item.id)}
-                  className={`relative flex md:flex-col items-center justify-start md:justify-center px-4 md:px-2.5 py-3 md:py-1.5 w-full md:w-auto md:min-w-[55px] rounded-xl md:rounded-none hover:bg-white/40 md:hover:bg-transparent transition-all duration-300 ease-out group ${
+                  className={`relative flex lg:flex-col items-center justify-start lg:justify-center px-4 lg:px-2.5 py-3 lg:py-1.5 w-full lg:w-auto lg:min-w-[55px] rounded-xl lg:rounded-none hover:bg-white/40 lg:hover:bg-transparent transition-all duration-300 ease-out group ${
                     activeTab === item.id
-                      ? "bg-white/60 md:bg-transparent text-gray-800"
+                      ? "bg-white/60 lg:bg-transparent text-gray-800"
                       : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   <div
-                    className={`transition-all duration-300 mr-3 md:mr-0 ${
+                    className={`transition-all duration-300 mr-3 lg:mr-0 ${
                       activeTab === item.id
                         ? "scale-105 drop-shadow-sm"
                         : "group-hover:scale-105 group-hover:drop-shadow-sm"
@@ -289,7 +249,7 @@ const TopNavbar = () => {
                     })}
                   </div>
                   <span
-                    className={`text-sm md:text-[10px] font-medium mt-0 md:mt-0.5 transition-all duration-300 ${
+                    className={`text-sm lg:text-[10px] font-medium mt-0 lg:mt-0.5 transition-all duration-300 ${
                       activeTab === item.id
                         ? "opacity-100 font-semibold"
                         : "opacity-60 group-hover:opacity-90 group-hover:font-medium"
@@ -298,7 +258,7 @@ const TopNavbar = () => {
                     {item.name}
                   </span>
                   {activeTab === item.id && (
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gray-800 rounded-r-full md:hidden" />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gray-800 rounded-r-full lg:hidden" />
                   )}
                 </button>
               ))}
@@ -307,19 +267,21 @@ const TopNavbar = () => {
         </div>
       </motion.div>
 
-      {/* 3. Right Connect Button - Independent */}
+      {/* 3. Right Section - Desktop Connect Button */}
+      {/* Hidden on Tablet/Mobile */}
       <motion.div
-        className="fixed top-5 right-5 md:right-8 z-[500]"
+        className="fixed top-5 right-5 md:right-8 z-[500] hidden lg:block"
         initial={{ opacity: 0, x: 50 }}
         animate={{
-          opacity: isVisible ? 1 : 0,
-          x: isVisible ? 0 : 50,
-          y: isVisible ? 0 : -100,
+          opacity: isTopVisible ? 1 : 0,
+          x: isTopVisible ? 0 : 50,
+          y: isTopVisible ? 0 : -100,
+          pointerEvents: isTopVisible ? "auto" : "none",
         }}
         transition={{ duration: 0.3 }}
       >
         <motion.button
-          onClick={() => scrollToSection("contact")} // Changed to 'contact' assuming ID match
+          onClick={() => scrollToSection("get-in-touch")}
           className="relative group block"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -331,9 +293,9 @@ const TopNavbar = () => {
           <div className="absolute inset-[2px] bg-white rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.1)] group-hover:bg-white/95 transition-all duration-300"></div>
 
           {/* Content */}
-          <span className="relative z-10 px-4 md:px-6 py-2 md:py-3 text-sm md:text-base font-medium text-gray-600 group-hover:text-gray-900 flex items-center space-x-2 transition-colors duration-300">
+          <span className="relative z-10 px-6 py-3 text-base font-medium text-gray-600 group-hover:text-gray-900 flex items-center space-x-2 transition-colors duration-300">
             <svg
-              className="w-4 h-4 hidden md:block"
+              className="w-4 h-4 hidden md:block" // scalable
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -347,6 +309,32 @@ const TopNavbar = () => {
             </svg>
             <span>Connect</span>
           </span>
+        </motion.button>
+      </motion.div>
+
+      {/* 4. Right Section - Mobile Menu Toggle */}
+      {/* Visible on Tablet/Mobile */}
+      <motion.div
+        className="fixed top-5 right-5 md:right-8 z-[500] lg:hidden"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{
+          opacity: isNavbarVisible ? 1 : 0,
+          y: isNavbarVisible ? 0 : -50,
+          scale: isNavbarVisible ? 1 : 0.8,
+          pointerEvents: isNavbarVisible ? "auto" : "none",
+        }}
+        transition={{ duration: 0.3 }}
+      >
+        <motion.button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-3 rounded-full bg-white/80 backdrop-blur-sm shadow-lg border border-white/20 text-gray-800"
+          whileTap={{ scale: 0.9 }}
+        >
+          {isMobileMenuOpen ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
         </motion.button>
       </motion.div>
     </>
