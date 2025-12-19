@@ -272,19 +272,17 @@ const ProductDetail = () => {
         </div>
       </header>
 
-      {/* --- CREATIVE SEPARATOR: INFINITE MARQUEE --- */}
-      <div className="relative py-6 sm:py-8 md:py-12 bg-black -rotate-1 sm:-rotate-2 scale-105 z-20 mb-10 sm:mb-16 md:mb-20 shadow-2xl border-y-2 sm:border-y-4 border-white overflow-hidden">
-        <div className="marquee-inner flex whitespace-nowrap">
-          {[...Array(8)].map((_, i) => (
-            <span
-              key={i}
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-black text-white px-2 sm:px-3 md:px-4 tracking-tighter"
-            >
-              {marqueeText}
-            </span>
-          ))}
-        </div>
-      </div>
+            {/* --- CREATIVE SEPARATOR: INFINITE MARQUEE --- */}
+            <div className="relative py-10 bg-black -rotate-2 scale-105 z-20 mb-20 shadow-2xl border-y-4 border-white">
+                <div className="marquee-inner flex whitespace-nowrap">
+                    {/* Repeat text enough times to fill width */}
+                    {[...Array(8)].map((_, i) => (
+                        <span key={i} className="text-4xl md:text-6xl font-black text-white px-4 tracking-tighter">
+                            {marqueeText}
+                        </span>
+                    ))}
+                </div>
+            </div>
 
       {/* --- CONTENT SECTION (Responsive) --- */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pb-20 sm:pb-30 md:pb-40 relative z-10">
